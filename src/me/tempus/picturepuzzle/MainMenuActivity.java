@@ -1,11 +1,16 @@
 package me.tempus.picturepuzzle;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +22,25 @@ import android.widget.Button;
 
 public class MainMenuActivity extends Activity {
 
+	private OnTouchListener mainMenuButtonBackgroundListener = new OnTouchListener() {			
+		@Override
+		public boolean onTouch(View view, MotionEvent event) {				
+			final int action = event.getAction();
+			switch (action){
+			
+			case MotionEvent.ACTION_DOWN:
+				view.setBackgroundResource(R.drawable.mainmenu_buttonbackground_gradient_off);
+				break;
+			case MotionEvent.ACTION_UP:
+				view.setBackgroundResource(R.drawable.mainmenu_buttonbackground_gradient_on);
+				break;
+			
+			}
+			
+			return false;
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,25 +50,12 @@ public class MainMenuActivity extends Activity {
 		 * Sets the buttons backgrounds to change when pressed
 		 */
 		Button enterGameButton = (Button)findViewById(R.id.enterGameButton);
+		Button continueGameButton = (Button)findViewById(R.id.continueGameButton);
+		Button statsButton = (Button)findViewById(R.id.statsButton);
 		
-		enterGameButton.setOnTouchListener(new OnTouchListener() {			
-			@Override
-			public boolean onTouch(View view, MotionEvent event) {				
-				final int action = event.getAction();
-				switch (action){
-				
-				case MotionEvent.ACTION_DOWN:
-					view.setBackgroundResource(R.drawable.mainmenu_buttonbackground_gradient_off);
-					break;
-				case MotionEvent.ACTION_UP:
-					view.setBackgroundResource(R.drawable.mainmenu_buttonbackground_gradient_on);
-					break;
-				
-				}
-				
-				return false;
-			}
-		});
+		enterGameButton.setOnTouchListener(mainMenuButtonBackgroundListener );
+		continueGameButton.setOnTouchListener(mainMenuButtonBackgroundListener);
+		statsButton.setOnTouchListener(mainMenuButtonBackgroundListener);
 				
 		final Context thisContext = (Context)this;
 		enterGameButton.setOnClickListener(new OnClickListener() {
@@ -82,9 +93,50 @@ public class MainMenuActivity extends Activity {
 				builder.create().show();
 			}
 		});
+		
+		statsButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent goToStatsActivity = new Intent(thisContext, StatsActivity.class);
+				startActivity(goToStatsActivity);
+			}
+			
+		});
+		
+		if(!isCachedGame()){
+			continueGameButton.setVisibility(View.GONE);
+		}
+		
+		continueGameButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				File cachedGame = new File(thisContext.getCacheDir(), thisContext.getResources().getString(R.string.cacheGameDir));
+				if(cachedGame.exists()){
+					try{
+						FileInputStream in = new FileInputStream(cachedGame);
+						Intent startGame = new Intent(thisContext, GameActivity.class);
+						//startGame.putExtra("rowSize", in.read(buffer));
+					}catch (FileNotFoundException e){
+						Log.e("MainMenu", "Cached game has tried to opened when it does not exist");
+					}finally{
+						
+					}
+					
+				}
+			}
+		});
 	}
 
 	
+	private boolean isCachedGame() {
+		File cache = new File(this.getCacheDir(), getResources().getString(R.string.cacheGameDir));
+		return cache.exists();
+	}
+
+
 	@Override
 	public void onResume(){
 		

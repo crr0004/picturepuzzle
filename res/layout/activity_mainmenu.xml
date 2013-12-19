@@ -30,6 +30,15 @@
         android:background="@color/white" >
 
         <Button
+            android:id="@+id/continueGameButton"
+            style="@style/MainMenuButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/mainmenu_buttonbackground_gradient_on"
+            android:text="@string/continueGameButtonText" />
+
+        <Button
             android:id="@+id/enterGameButton"
             style="@style/MainMenuButton"
             android:layout_width="fill_parent"
@@ -37,6 +46,16 @@
             android:layout_marginTop="7dp"
             android:background="@drawable/mainmenu_buttonbackground_gradient_on"
             android:text="@string/newGame" />
+
+        <Button
+            android:id="@+id/statsButton"
+            style="@style/MainMenuButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/mainmenu_buttonbackground_gradient_on"
+            android:text="@string/statsButtonText" />
+
     </TableLayout>
 
 </LinearLayout>
