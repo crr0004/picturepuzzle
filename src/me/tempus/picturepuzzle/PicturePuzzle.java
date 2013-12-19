@@ -8,7 +8,9 @@ import javax.microedition.khronos.opengles.GL10;
 
 import me.tempus.interfaces.InputManagerReceiver;
 import me.tempus.interfaces.RenderHost;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -183,8 +185,8 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 			}
 		}
 		pieces.set(getPositionInArray(0, 0, rowPieces), null);
-		freePiece.getRect().height = Piece.getPieceHeight() * 2;
-		freePiece.getRect().width = Piece.getPieceWidth() * 2;
+		freePiece.getRect().height = Piece.getPieceHeight();
+		freePiece.getRect().width = Piece.getPieceWidth();
 
 		shuffPieces(pieces);
 	}
@@ -211,7 +213,18 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 
 	private void showWinGameDialog() {
 		// TODO Auto-generated method stub
-		
+		Runnable winGame = new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				AlertDialog.Builder winGameDialog = new AlertDialog.Builder(gameActivity);
+				winGameDialog.setTitle(R.string.wingamedialogtitle);
+				winGameDialog.setMessage(R.string.wingame);
+				winGameDialog.create().show();
+			}
+		};
+		gameActivity.runOnUiThread(winGame);
 	}
 
 	/**
@@ -326,6 +339,16 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		return list;
 	}
 
+	/**
+	 * Resets the current game
+	 * Shuffles the pieces and puts the start time back to current phones uptime
+	 */
+	public void resetGame() {
+		startTime = SystemClock.uptimeMillis();
+		shuffPieces(pieces);
+				
+	}
+	
 	@Override
 	public void onKeyPressed(KeyEvent event) {
 

@@ -1,6 +1,5 @@
 package me.tempus.picturepuzzle;
 
-import me.tempus.interfaces.RenderHost;
 import android.app.Activity;
 import android.content.Intent;
 import android.opengl.GLSurfaceView;
@@ -15,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.widget.TextView;
+import android.widget.Button;
 
 public class GameActivity extends Activity implements OnClickListener, OnTouchListener, OnKeyListener {
 
@@ -51,6 +51,14 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 
 		final TextView timeTextField = (TextView)findViewById(R.id.timeTextField);
 		final Handler handler = new Handler();
+		
+		((Button)findViewById(R.id.resestButton)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				puzzleGame.resetGame();				
+			}
+		});
 		
 		Runnable setText = new Runnable() {
 

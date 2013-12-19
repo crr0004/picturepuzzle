@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">Picture Puzzle</string>
-    <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">Picture Puzzle</string>
     <string name="newGame">NEW GAME</string>
@@ -34,6 +33,7 @@
         <item >4x4</item>
         <item >5x5</item>
     </string-array>
+    <string name="wingamedialogtitle">You\'ve Won!</string>
     
 
 </resources>
