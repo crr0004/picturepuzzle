@@ -2,6 +2,7 @@ package me.tempus.picturepuzzle;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +21,7 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 
 	private final StringBuffer timeTextBuffer = new StringBuffer("00:00:00");
 	private long upTime = 0;
+	PicturePuzzle puzzleGame;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +31,16 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 		Intent intent = getIntent();
 		int rowSize = 3;
 		int columnSize = 3;
+		String grid = null;
 		
 		if(intent != null){
 			rowSize = intent.getIntExtra("rowSize", 3);
 			columnSize = intent.getIntExtra("columnSize", 3);
+			grid = intent.getStringExtra("gameGrid");
+		}else if(savedInstanceState != null){
+			rowSize = savedInstanceState.getInt("rowSize", 3);
+			columnSize = savedInstanceState.getInt("columnSize", 3);
+			grid = savedInstanceState.getString("gameGrid");
 		}
 		
 		GLSurfaceView glSurfaceView = (GLSurfaceView) findViewById(R.id.glView);
@@ -42,7 +50,13 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 		glSurfaceView.setOnKeyListener(this);
 		
 		Render render = new Render(50);
-		final PicturePuzzle puzzleGame = new PicturePuzzle(this, render, rowSize, columnSize, R.drawable.nintendo_characters_nintendo_512x512);
+		
+		if(grid != null){
+			puzzleGame = new PicturePuzzle(this, render, rowSize, columnSize, R.drawable.nintendo_characters_nintendo_512x512);
+		}else{
+			puzzleGame = new PicturePuzzle(this, render, rowSize, columnSize, grid, R.drawable.nintendo_characters_nintendo_512x512);
+		}
+		
 		render.setHost(puzzleGame);
 		render.setRawScreenHeight(getWindowManager().getDefaultDisplay().getHeight());
 		
@@ -86,7 +100,36 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 		getMenuInflater().inflate(R.menu.game, menu);
 		return true;
 	}
+	
+	@Override
+	public void onResume(){
+		
+	}
 
+	@Override
+	public void onPause(){
+		
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle saveInstanceState){
+		saveInstanceState.putInt("rowSize", puzzleGame.getRowSize());
+		saveInstanceState.putInt("columnSize", puzzleGame.getColumnSize());
+		saveInstanceState.putString("gameGrid", puzzleGame.getGrid());
+	}
+	
+	@Override
+	public void onDestroy(){
+		SharedPreferences prefences = getPreferences(MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefences.edit();
+		
+		editor.putInt("rowSize", puzzleGame.getRowSize());
+		editor.putInt("columnSize", puzzleGame.getColumnSize());
+		editor.putString("gameGrid", puzzleGame.getGrid());
+		
+		editor.commit();
+	}
+	
 	@Override
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub

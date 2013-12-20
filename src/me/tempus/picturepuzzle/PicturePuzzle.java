@@ -45,12 +45,21 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 
 	private Texture picture;
 
+	private String grid;
+
 	public PicturePuzzle(GameActivity gameActivity, Render render, int rowSize, int columnSize, int pictureID){
 		this.render = render;
 		this.rowSize = rowSize;
 		this.columnSize = columnSize;
 		this.pictureID  = pictureID;
 		this.gameActivity = gameActivity;
+	}
+
+	public PicturePuzzle(GameActivity gameActivity2, Render render2,
+			int rowSize2, int columnSize2, String grid,
+			int nintendoCharactersNintendo512x512) {
+		this(gameActivity2, render2, rowSize2, columnSize2, nintendoCharactersNintendo512x512);
+		this.grid = grid;
 	}
 
 	public void init() {
@@ -64,7 +73,11 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		
 		init();
 		waitThis();
-		setUpGrid(rowSize, columnSize, picture.width, picture.height);
+		if(grid != null){
+			loadGrid(grid, rowSize, columnSize);
+		}else{
+			setUpGrid(rowSize, columnSize, picture.width, picture.height);
+		}
 		long currentTime = 0;
 		long delta = 0;
 		while(!done){
@@ -192,6 +205,39 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 	}
 
 	/**
+	 * Loads the game grid given a setup of coordinates
+	 * @param grid The formatted string so that each position maps a grid position. Free set of cords is the free piece
+	 * E.G 0 9 1 4 2 5 Meaning that the first position has the last piece in it
+	 */
+	private void loadGrid(String grid, int rowSize, int columnSize) {
+		
+		pieces = new ArrayList<Piece>(rowSize * columnSize);
+		Piece.setPieceWidth(render.getScreenWidth() / rowSize);
+		Piece.setPieceHeight(render.getScreenHeight() / columnSize);
+		Piece.setxPadding(2);
+		Piece.setyPadding(2);
+		
+		final int tPieceWidth = picture.width / (rowSize);
+		final int tPieceHeight = picture.height / (columnSize);
+		
+		String[] positions = grid.split(" ");
+		for(int k = 1; k < positions.length/2; k++){
+			int position = Integer.parseInt(positions[(k*2)]);
+			int[] pieceCords = getCoordinates(Integer.parseInt(positions[(k*2)+1]), rowSize);
+			int i = pieceCords[0];
+			int j = pieceCords[1];
+			Piece piece = new Piece(i, j, new int[] {
+					i * tPieceWidth, picture.height - (j * tPieceHeight),
+					tPieceWidth, -tPieceHeight });
+			pieces.add(position, piece);			
+		}
+		pieces.set(Integer.parseInt(positions[1]), null);
+		freePiece.getRect().height = Piece.getPieceHeight();
+		freePiece.getRect().width = Piece.getPieceWidth();
+		
+	}
+	
+	/**
 	 * To check if the pieces are in the correct places The method will take
 	 * care of the case when the game is won
 	 * 
@@ -284,6 +330,18 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 	 */
 	public static int getPositionInArray(int i, int j, int n) {
 		return ((n * i) + j);
+	}
+	
+	public static int[] getCoordinates(int position, int rowSize){
+		int[] coords = new int[2];
+		if(position < rowSize){
+			coords[0] = 0;
+			coords[1] = position;
+		}else{
+			coords[1] = position - rowSize;
+			coords[0] = (position - coords[1]) / rowSize;
+		}
+		return coords;
 	}
 
 	/**
@@ -389,10 +447,6 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		}
 	}
 
-	public String toString() {
-		return "PicturePuzzle";
-	}
-
 	@Override
 	public void screenChanged(GL10 gl) {		
 		
@@ -424,6 +478,30 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		return startTime ;
 	}
 	
+	public int getRowSize() {
+		// TODO Auto-generated method stub
+		return rowSize;
+	}
+
+	public int getColumnSize() {
+		// TODO Auto-generated method stub
+		return columnSize;
+	}
+
+	public String getGrid() {
+		// TODO Auto-generated method stub
+		StringBuilder grid = new StringBuilder();
+		grid.append("-1 ").append(getPositionInArray(freePiece.i, freePiece.j, rowSize)).append(" ");
+		for(int i = 0; i < pieces.size(); i++){
+			Piece currentPiece = pieces.get(i);
+			grid.append(i).append(" ").append(getPositionInArray(currentPiece.i, currentPiece.j, rowSize)).append(" ");
+		}
+		return grid.toString();
+	}
+	
+	public String toString() {
+		return "PicturePuzzle";
+	}
 	/**
 	 * A sync and catch way of waiting the thread. Just cleaner code
 	 */

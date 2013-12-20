@@ -1,14 +1,17 @@
 package me.tempus.picturepuzzle;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -113,21 +116,24 @@ public class MainMenuActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				File cachedGame = new File(thisContext.getCacheDir(), thisContext.getResources().getString(R.string.cacheGameDir));
-				if(cachedGame.exists()){
-					try{
-						FileInputStream in = new FileInputStream(cachedGame);
-						Intent startGame = new Intent(thisContext, GameActivity.class);
-						//startGame.putExtra("rowSize", in.read(buffer));
-					}catch (FileNotFoundException e){
-						Log.e("MainMenu", "Cached game has tried to opened when it does not exist");
-					}finally{
-						
-					}
+				Intent startGame = new Intent(thisContext, GameActivity.class);
+				
+				SharedPreferences preferences = getPreferences(MODE_APPEND);
+				startGame.putExtra("rowSize", preferences.getInt("rowSize", 3));
+				startGame.putExtra("columnSize", preferences.getInt("columnSize", 3));
+				
+				/*
+				 * Format of the grid when saved is that each position in the grid is given the piece that is there
+				 * E.G 0 9 1 3 2 6
+				 * Meaning that the first position (top left) has the piece that belongs in the last position, etc
+				 */
+				startGame.putExtra("grid", preferences.getString("gameGrid", ""));
+				
+				startActivity(startGame);
 					
-				}
 			}
 		});
+
 	}
 
 	
