@@ -78,6 +78,7 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 			pieces = loadGrid(grid, picture, render, freePiece, rowSize, columnSize);
 		}else{
 			setUpGrid(rowSize, columnSize, picture.width, picture.height);
+			shuffPieces(pieces);
 		}
 		long currentTime = 0;
 		long delta = 0;
@@ -204,7 +205,7 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		freePiece.getRect().height = Piece.getPieceHeight();
 		freePiece.getRect().width = Piece.getPieceWidth();
 
-		shuffPieces(pieces);
+		
 	}
 
 	/**
@@ -214,51 +215,18 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 	 */
 	private List<Piece> loadGrid(String grid, Texture picture, Render render, Piece freePiece, int rowSize, int columnSize) {
 		
-		Piece[] pieces = new Piece[rowSize * columnSize];
+		setUpGrid(rowSize, columnSize, picture.width, picture.height);
 		
-		//Setting the pieces rendering properties
-		Piece.setPieceWidth(render.getScreenWidth() / rowSize);
-		Piece.setPieceHeight(render.getScreenHeight() / columnSize);
-		Piece.setxPadding(2);
-		Piece.setyPadding(2);		
-		final int tPieceWidth = picture.width / (rowSize);
-		final int tPieceHeight = picture.height / (columnSize);
-		
-		String[] positions = grid.split(" "); //Split up the grid into each pieces cordinates
-		
-		//Cycle through each set of coordinates extracting the piece's position and initial position
-		for(int k = 0; k < positions.length/2; k++){
-			
-			int[] gridPos = getCoordinates(k, rowSize);
-			int i = gridPos[0];
-			int j = gridPos[1];
-			
-			int initGridPos = Integer.parseInt(positions[(k*2) + 1].split(":")[1]);
-			if(initGridPos != -1){
-				int[] initGridCords = getCoordinates(initGridPos, rowSize);
-				int initI = initGridCords[0];
-				int initJ = initGridCords[1];
-				
-				final Piece piece = new Piece(i, j, new int[] {
-						initI * tPieceWidth, picture.height - (initJ * tPieceHeight),
-						tPieceWidth, -tPieceHeight });
-				pieces[k] = piece;
+		String[] posistions = grid.split(" ");
+		for(int k = 0; k < posistions.length; k++){
+			if(posistions[k].length() == 2){
+				swapPiece(pieces.get(k), freePiece);
 			}else{
-				freePiece.i = i;
-				freePiece.j = j;
-				pieces[k] = null;
+				swapPiece(pieces.get(k), pieces.get(Integer.parseInt(posistions[k])));
 			}
-			
-		}
-		freePiece.getRect().height = Piece.getPieceHeight();
-		freePiece.getRect().width = Piece.getPieceWidth();
-		
-		List<Piece> pieceList = new ArrayList<Piece>(rowSize * columnSize);
-		for(Piece p : pieces){
-			pieceList.add(p);
 		}
 		
-		return pieceList;
+		return pieces;
 		
 	}
 	
@@ -555,14 +523,13 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		for(int i = 0; i < pieces.size(); i++){
 			Piece currentPiece = pieces.get(i);
 			if(currentPiece != null){
-				grid.append(" ").append(i).append(" ").append(getPositionInArray(currentPiece.i, currentPiece.j, rowSize))
-				.append(":").append(getPositionInArray(currentPiece.initI, currentPiece.initJ, rowSize));
+				grid.append(getPositionInArray(currentPiece.initI, currentPiece.initJ, rowSize)).append(" ");
 			}else{
 				//Log.d("PicturePuzzle", freePiece.toString());
-				grid.append(" ").append(i).append(" ").append(getPositionInArray(freePiece.i, freePiece.j, rowSize)).append(":").append("-1");
+				grid.append("n").append(getPositionInArray(freePiece.initI, freePiece.initJ, rowSize)).append(" ");
 			}
 		}
-		grid.deleteCharAt(0); //Burns the space put at the front
+		grid.deleteCharAt(grid.length()-1); //Burns the space put at the end
 		return grid.toString();
 	}
 	
