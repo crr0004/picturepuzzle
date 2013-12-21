@@ -17,8 +17,8 @@ public class Piece implements AABB, Drawable {
 	//Piece specific
 	public int i;
 	public int j;
-	public final int initI;
-	public final int initJ;
+	public int initI;
+	public int initJ;
 	private final Rectangle rect;
 	private final int[] textureRect;
 
@@ -29,6 +29,15 @@ public class Piece implements AABB, Drawable {
 		this.j = j;
 		this.rect = new Rectangle(i * pieceWidth, j * pieceHeight, pieceWidth, pieceHeight);
 		this.textureRect = textureRect;  
+	}
+	
+	public Piece(int i, int j, int initI, int initJ, int[] textureRect){
+		this.i = i;
+		this.j = j;
+		this.rect = new Rectangle(i * pieceWidth, j * pieceHeight, pieceWidth, pieceHeight);
+		this.textureRect = textureRect; 
+		this.initI = initI;
+		this.initJ = initJ;
 	}
 	/**
 	 * Will update and return the area covered by this piece in the form of a rectangle
@@ -89,7 +98,7 @@ public class Piece implements AABB, Drawable {
 	@Override
 	public String toString(){
 		//TODO Change this to a string builder
-		return "(" + i + ", " + j + ")" + " Width, Height: " + pieceHeight + ", " + pieceWidth + "(" + i*pieceWidth + ", " + j*pieceHeight + ")";
+		return "(" + i + ", " + j + ")" + " Width, Height: " + pieceHeight + ", " + pieceWidth + " (" + i*pieceWidth + ", " + j*pieceHeight + ")";
 	}
 
 

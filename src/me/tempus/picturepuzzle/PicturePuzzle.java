@@ -1,6 +1,7 @@
 package me.tempus.picturepuzzle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -74,7 +75,7 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		init();
 		waitThis();
 		if(grid != null){
-			loadGrid(grid, rowSize, columnSize);
+			pieces = loadGrid(grid, picture, render, freePiece, rowSize, columnSize);
 		}else{
 			setUpGrid(rowSize, columnSize, picture.width, picture.height);
 		}
@@ -87,9 +88,11 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 			activePieces[1] = getActivePiece(freePiece.i, freePiece.j - 1);
 			activePieces[2] = getActivePiece(freePiece.i + 1, freePiece.j);
 			activePieces[3] = getActivePiece(freePiece.i - 1, freePiece.j);
-			render.addDrawables(pieces);
+			
+			
 			InputManager.processInput(this);
-			if (render != null)				
+			render.addDrawables(pieces);
+			//if (render != null)				
 				render.beginFrame();
 			delta = SystemClock.currentThreadTimeMillis() - currentTime;
 			if(delta < 32){ // 32 for 30 frames for second
@@ -119,8 +122,8 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		render = null;
 		piece = null;
 		pieces = null;
-		freePiece.i = 0;
-		freePiece.j = 0;
+		//freePiece.i = 0;
+		//freePiece.j = 0;
 		activePieces[0] = null;
 		activePieces[1] = null;
 		activePieces[2] = null;
@@ -176,9 +179,9 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 	 * @param textureWidth
 	 * @param textureHeight
 	 */
-	public void setUpGrid(int rowPieces, int columnPieces,
+	private void setUpGrid(int rowPieces, int columnPieces,
 			int textureWidth, int textureHeight) {
-		Log.d("PicturePuzzle", "RowPices, ColumnPieces" + rowPieces + ", " + columnPieces);
+		Log.d("PicturePuzzle", "RowPieces, ColumnPieces" + rowPieces + ", " + columnPieces);
 		pieces = new ArrayList<Piece>(rowPieces * columnPieces);
 		Piece.setPieceWidth(render.getScreenWidth() / rowPieces);
 		Piece.setPieceHeight(render.getScreenHeight() / columnPieces);
@@ -207,33 +210,55 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 	/**
 	 * Loads the game grid given a setup of coordinates
 	 * @param grid The formatted string so that each position maps a grid position. Free set of cords is the free piece
-	 * E.G 0 9 1 4 2 5 Meaning that the first position has the last piece in it
+	 * E.G 0 9:1 1 4:3 2 5:4 Meaning that the first position has the last piece in it which belongs in the first position
 	 */
-	private void loadGrid(String grid, int rowSize, int columnSize) {
+	private List<Piece> loadGrid(String grid, Texture picture, Render render, Piece freePiece, int rowSize, int columnSize) {
 		
-		pieces = new ArrayList<Piece>(rowSize * columnSize);
+		Piece[] pieces = new Piece[rowSize * columnSize];
+		
+		//Setting the pieces rendering properties
 		Piece.setPieceWidth(render.getScreenWidth() / rowSize);
 		Piece.setPieceHeight(render.getScreenHeight() / columnSize);
 		Piece.setxPadding(2);
-		Piece.setyPadding(2);
-		
+		Piece.setyPadding(2);		
 		final int tPieceWidth = picture.width / (rowSize);
 		final int tPieceHeight = picture.height / (columnSize);
 		
-		String[] positions = grid.split(" ");
-		for(int k = 1; k < positions.length/2; k++){
-			int position = Integer.parseInt(positions[(k*2)]);
-			int[] pieceCords = getCoordinates(Integer.parseInt(positions[(k*2)+1]), rowSize);
-			int i = pieceCords[0];
-			int j = pieceCords[1];
-			Piece piece = new Piece(i, j, new int[] {
-					i * tPieceWidth, picture.height - (j * tPieceHeight),
-					tPieceWidth, -tPieceHeight });
-			pieces.add(position, piece);			
+		String[] positions = grid.split(" "); //Split up the grid into each pieces cordinates
+		
+		//Cycle through each set of coordinates extracting the piece's position and initial position
+		for(int k = 0; k < positions.length/2; k++){
+			
+			int[] gridPos = getCoordinates(k, rowSize);
+			int i = gridPos[0];
+			int j = gridPos[1];
+			
+			int initGridPos = Integer.parseInt(positions[(k*2) + 1].split(":")[1]);
+			if(initGridPos != -1){
+				int[] initGridCords = getCoordinates(initGridPos, rowSize);
+				int initI = initGridCords[0];
+				int initJ = initGridCords[1];
+				
+				final Piece piece = new Piece(i, j, new int[] {
+						initI * tPieceWidth, picture.height - (initJ * tPieceHeight),
+						tPieceWidth, -tPieceHeight });
+				pieces[k] = piece;
+			}else{
+				freePiece.i = i;
+				freePiece.j = j;
+				pieces[k] = null;
+			}
+			
 		}
-		pieces.set(Integer.parseInt(positions[1]), null);
 		freePiece.getRect().height = Piece.getPieceHeight();
 		freePiece.getRect().width = Piece.getPieceWidth();
+		
+		List<Piece> pieceList = new ArrayList<Piece>(rowSize * columnSize);
+		for(Piece p : pieces){
+			pieceList.add(p);
+		}
+		
+		return pieceList;
 		
 	}
 	
@@ -257,6 +282,31 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		showWinGameDialog();
 	}
 
+	private boolean validGrid(List<Piece> pieces, int rowSize){
+		for(int i = 0; i < pieces.size(); i++){
+			Piece p = pieces.get(i);
+			if(p != null){
+				int piecePos = getPositionInArray(p.i, p.j, rowSize);
+				if(piecePos == getPositionInArray(freePiece.i, freePiece.j, rowSize)){
+					return false;
+				}
+				for(int k = 0; k < pieces.size(); k++){
+					
+					if(i != k){
+						Piece c = pieces.get(k);
+						if(c != null){
+							if(piecePos == getPositionInArray(c.i, c.j, rowSize)){
+								return false;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return true;
+	}
+	
 	private void showWinGameDialog() {
 		// TODO Auto-generated method stub
 		Runnable winGame = new Runnable() {
@@ -282,13 +332,12 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 	 * @param j
 	 *            Column position to move to
 	 */
-	public void movePieceTo(Piece piece, int i, int j) {
+	public void movePieceTo(Piece piece, Piece freePiece) {
 		final int freePos = getPositionInArray(freePiece.i, freePiece.j,
 				rowSize);
-		final int posTry = getPositionInArray(i, j, rowSize);
+		final int posTry = getPositionInArray(piece.i, piece.j, rowSize);
 		if (posTry == freePos) {
 			swapPiece(piece, freePiece);
-			//pieces.set(getPositionInArray(piece.i, piece.j, rowSize), null);
 			checkIfComplete(pieces);
 		}
 	}
@@ -306,6 +355,9 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		
 		final int pos1 = getPositionInArray(p1.i, p1.j, rowSize);
 		final int pos2 = getPositionInArray(p2.i, p2.j, rowSize);
+		
+		if(pos1 == pos2) return;
+		
 		final Piece p = pieces.get(pos1);
 		pieces.set(pos1, pieces.get(pos2));
 		pieces.set(pos2, p);
@@ -315,6 +367,10 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		p1.j = p2.j;
 		p2.i = i1;
 		p2.j = j1;
+		
+		if(!validGrid(pieces, this.getRowSize())){
+			Log.e("PicturePuzzleL357", "Grid is not valid");
+		}
 
 	}
 
@@ -333,15 +389,10 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 	}
 	
 	public static int[] getCoordinates(int position, int rowSize){
-		int[] coords = new int[2];
-		if(position < rowSize){
-			coords[0] = 0;
-			coords[1] = position;
-		}else{
-			coords[1] = position - rowSize;
-			coords[0] = (position - coords[1]) / rowSize;
-		}
-		return coords;
+		int[] cords = new int[2];		
+		cords[0] = (int)(position / rowSize);
+		cords[1] = position - (rowSize * cords[0]);
+		return cords;
 	}
 
 	/**
@@ -422,26 +473,34 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		case MotionEvent.ACTION_DOWN:
 			if (!pieceSelected) {
 				piece = processTouchDownEvent(activePieces, event);
-				if(piece != null)
+				//if(piece != null)
 					//Log.d("PicturePuzzle", piece.toString());
 				pieceSelected = true;
 			}
 			break;
 		case MotionEvent.ACTION_UP:
+			piece = null;
+			pieceSelected = false;
+			break;
+		case MotionEvent.ACTION_MOVE:
 			if (piece != null) {
 				final float x = event.getRawX();
 				final float y = render.getRawScreenHeight() - event.getY();
 
 				if (Rectangle.pointIntersects(x, y, freePiece.getRect())) {
-					movePieceTo(piece, freePiece.i, freePiece.j);
+					//movePieceTo(piece, freePiece);
+					swapPiece(piece, freePiece);
+					//checkIfComplete(pieces);
+					this.pieces.isEmpty();
+					piece = null;
+					pieceSelected = false;
 				}
-			}
-			pieceSelected = false;
-			piece = null;
-			break;
-		case MotionEvent.ACTION_MOVE:
+				
+			}			
 			break;
 		case MotionEvent.ACTION_CANCEL:
+			piece = null;
+			pieceSelected = false;
 			break;
 
 		}
@@ -457,46 +516,64 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 
 	@Override
 	public void screenCreated(GL10 gl) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void frameStarted(GL10 gl) {
-		// TODO Auto-generated method stub
 		render.bindTexture(gl, picture.textureID);
 	}
 
 	@Override
 	public void frameEnded(GL10 gl) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public long getStartTime() {
-		// TODO Auto-generated method stub
 		return startTime ;
 	}
 	
 	public int getRowSize() {
-		// TODO Auto-generated method stub
 		return rowSize;
 	}
 
 	public int getColumnSize() {
-		// TODO Auto-generated method stub
 		return columnSize;
 	}
 
-	public String getGrid() {
-		// TODO Auto-generated method stub
+	/**
+	 * Creates a string representing the current state of the game's grid. Formated like below
+	 * E.G 0 9:1 1 4:3 2 5:4 Meaning that the first position has the last piece in it which belongs in the first position
+	 * @param pieces The list of the current pieces of the game
+	 * @param freePiece The piece representing the null piece in the list
+	 * @param rowSize The size of how pieces are in each row of the grid
+	 * @return A string representing the games grid
+	 */
+	public String getGrid(List<Piece> pieces, Piece freePiece, int rowSize) {
 		StringBuilder grid = new StringBuilder();
-		grid.append("-1 ").append(getPositionInArray(freePiece.i, freePiece.j, rowSize)).append(" ");
+		
 		for(int i = 0; i < pieces.size(); i++){
 			Piece currentPiece = pieces.get(i);
-			grid.append(i).append(" ").append(getPositionInArray(currentPiece.i, currentPiece.j, rowSize)).append(" ");
+			if(currentPiece != null){
+				grid.append(" ").append(i).append(" ").append(getPositionInArray(currentPiece.i, currentPiece.j, rowSize))
+				.append(":").append(getPositionInArray(currentPiece.initI, currentPiece.initJ, rowSize));
+			}else{
+				//Log.d("PicturePuzzle", freePiece.toString());
+				grid.append(" ").append(i).append(" ").append(getPositionInArray(freePiece.i, freePiece.j, rowSize)).append(":").append("-1");
+			}
 		}
+		grid.deleteCharAt(0); //Burns the space put at the front
 		return grid.toString();
+	}
+	
+
+	public List<Piece> getPieces() {
+		return pieces;
+	}
+
+	public Piece getFreePiece() {
+		// TODO Auto-generated method stub
+		return freePiece;
 	}
 	
 	public String toString() {
@@ -527,4 +604,5 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 			e.printStackTrace();
 		}
 	}
+
 }

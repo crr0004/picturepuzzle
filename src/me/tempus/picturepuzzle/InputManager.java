@@ -50,9 +50,6 @@ public class InputManager {
 	 * @param event
 	 */
 	public static void addMotionEvent(View v, MotionEvent event){
-		if(event.getAction() == MotionEvent.ACTION_MOVE){
-			return;
-		}
 		events.add(event);
 	}
 	

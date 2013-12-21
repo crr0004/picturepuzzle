@@ -90,6 +90,7 @@ public final class R {
         public static final int quit=0x7f06000b;
         public static final int reset=0x7f060009;
         public static final int settings=0x7f060005;
+        public static final int sharedPrefencesName=0x7f06001a;
         public static final int startingTime=0x7f06000a;
         public static final int stats=0x7f060004;
         public static final int statsButtonText=0x7f060014;

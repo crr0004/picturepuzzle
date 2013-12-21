@@ -37,10 +37,6 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 			rowSize = intent.getIntExtra("rowSize", 3);
 			columnSize = intent.getIntExtra("columnSize", 3);
 			grid = intent.getStringExtra("gameGrid");
-		}else if(savedInstanceState != null){
-			rowSize = savedInstanceState.getInt("rowSize", 3);
-			columnSize = savedInstanceState.getInt("columnSize", 3);
-			grid = savedInstanceState.getString("gameGrid");
 		}
 		
 		GLSurfaceView glSurfaceView = (GLSurfaceView) findViewById(R.id.glView);
@@ -51,10 +47,10 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 		
 		Render render = new Render(50);
 		
-		if(grid != null){
-			puzzleGame = new PicturePuzzle(this, render, rowSize, columnSize, R.drawable.nintendo_characters_nintendo_512x512);
-		}else{
+		if(grid != ""){			
 			puzzleGame = new PicturePuzzle(this, render, rowSize, columnSize, grid, R.drawable.nintendo_characters_nintendo_512x512);
+		}else{
+			puzzleGame = new PicturePuzzle(this, render, rowSize, columnSize, R.drawable.nintendo_characters_nintendo_512x512);
 		}
 		
 		render.setHost(puzzleGame);
@@ -103,31 +99,40 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 	
 	@Override
 	public void onResume(){
-		
+		super.onResume();
 	}
 
 	@Override
 	public void onPause(){
+		super.onPause();
 		
-	}
-	
-	@Override
-	public void onSaveInstanceState(Bundle saveInstanceState){
-		saveInstanceState.putInt("rowSize", puzzleGame.getRowSize());
-		saveInstanceState.putInt("columnSize", puzzleGame.getColumnSize());
-		saveInstanceState.putString("gameGrid", puzzleGame.getGrid());
-	}
-	
-	@Override
-	public void onDestroy(){
-		SharedPreferences prefences = getPreferences(MODE_PRIVATE);
+		SharedPreferences prefences = getSharedPreferences(this.getResources().getString(R.string.sharedPrefencesName), MODE_PRIVATE);
 		SharedPreferences.Editor editor = prefences.edit();
 		
 		editor.putInt("rowSize", puzzleGame.getRowSize());
 		editor.putInt("columnSize", puzzleGame.getColumnSize());
-		editor.putString("gameGrid", puzzleGame.getGrid());
+		editor.putString("gameGrid", puzzleGame.getGrid(puzzleGame.getPieces(), puzzleGame.getFreePiece(), puzzleGame.getRowSize()));
 		
 		editor.commit();
+	}
+	
+	@Override
+	public void onStop(){
+		super.onStop();
+
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle saveInstanceState){
+//		saveInstanceState.putInt("rowSize", puzzleGame.getRowSize());
+//		saveInstanceState.putInt("columnSize", puzzleGame.getColumnSize());
+//		saveInstanceState.putString("gameGrid", puzzleGame.getGrid());
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		
 	}
 	
 	@Override

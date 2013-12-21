@@ -42,5 +42,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="cacheGameDir">lastgame</string>
     <string name="statsFileName">stats</string>
+    <string name="sharedPrefencesName">gamePrefences</string>
 
 </resources>

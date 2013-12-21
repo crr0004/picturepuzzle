@@ -118,7 +118,7 @@ public class MainMenuActivity extends Activity {
 			public void onClick(View v) {
 				Intent startGame = new Intent(thisContext, GameActivity.class);
 				
-				SharedPreferences preferences = getPreferences(MODE_APPEND);
+				SharedPreferences preferences = getSharedPreferences(thisContext.getResources().getString(R.string.sharedPrefencesName), MODE_PRIVATE);
 				startGame.putExtra("rowSize", preferences.getInt("rowSize", 3));
 				startGame.putExtra("columnSize", preferences.getInt("columnSize", 3));
 				
@@ -127,7 +127,7 @@ public class MainMenuActivity extends Activity {
 				 * E.G 0 9 1 3 2 6
 				 * Meaning that the first position (top left) has the piece that belongs in the last position, etc
 				 */
-				startGame.putExtra("grid", preferences.getString("gameGrid", ""));
+				startGame.putExtra("gameGrid", preferences.getString("gameGrid", ""));
 				
 				startActivity(startGame);
 					
@@ -138,8 +138,8 @@ public class MainMenuActivity extends Activity {
 
 	
 	private boolean isCachedGame() {
-		File cache = new File(this.getCacheDir(), getResources().getString(R.string.cacheGameDir));
-		return cache.exists();
+		SharedPreferences preferences = getSharedPreferences(this.getResources().getString(R.string.sharedPrefencesName), MODE_PRIVATE);
+		return preferences.getString("gameGrid", "") != "" ? true : false;
 	}
 
 

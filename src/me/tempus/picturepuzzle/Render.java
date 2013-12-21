@@ -64,17 +64,21 @@ public class Render implements Renderer{
 		canDraw = false;
 		
 		host.frameStarted(gl);
+		//final int size = currentPos;
+		//final int offset = bufferIndex * (drawables.length/2);
 		final int size = currentPos;
-		final int offset = bufferIndex * (drawables.length/2);
+		final int offset = bufferIndex * drawables.length/2;
 		bufferIndex = 1 - bufferIndex;
-		currentOffSet = bufferIndex * (drawables.length/2);
+		currentOffSet = bufferIndex * drawables.length/2;
 		currentPos = 0;
-		for(Drawable d : drawables){
+		for(int i = 0; i < size; i++){
+			final Drawable d = drawables[i + offset];
 			if(d != null){
 				d.preDraw(gl);
 				d.draw(gl);
 				d.postDraw(gl);
 			}
+			//drawables[i + offset] = null;
 		}
 		
 		host.frameEnded(gl);
