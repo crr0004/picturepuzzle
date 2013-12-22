@@ -19,6 +19,8 @@ public class Piece implements AABB, Drawable {
 	public int j;
 	public int initI;
 	public int initJ;
+	public float x;
+	public float y;
 	private final Rectangle rect;
 	private final int[] textureRect;
 
@@ -27,6 +29,8 @@ public class Piece implements AABB, Drawable {
 		this.initJ = j;
 		this.i = i;
 		this.j = j;
+		this.x = i *pieceWidth;
+		this.y = j *pieceHeight;
 		this.rect = new Rectangle(i * pieceWidth, j * pieceHeight, pieceWidth, pieceHeight);
 		this.textureRect = textureRect;  
 	}
@@ -58,7 +62,7 @@ public class Piece implements AABB, Drawable {
 		((GL11) gl).glTexParameteriv(GL10.GL_TEXTURE_2D, 
 				GL11Ext.GL_TEXTURE_CROP_RECT_OES, textureRect, 0);
 		}
-		((GL11Ext) gl).glDrawTexfOES((i * pieceWidth), (j * pieceHeight), 0, pieceWidth - xPadding, pieceHeight - yPadding);
+		((GL11Ext) gl).glDrawTexfOES((int)x, (int)y, 0, pieceWidth - xPadding, pieceHeight - yPadding);
 	}
 	
 	public void postDraw(GL10 gl) {}	
@@ -93,6 +97,16 @@ public class Piece implements AABB, Drawable {
 	
 	public static int getyPadding() {
 		return yPadding;
+	}
+	
+	public void setI(int i){
+		this.i = i;
+		this.x = i * pieceWidth;
+	}
+	
+	public void setJ(int j){
+		this.j = j;
+		this.y = j * pieceHeight;
 	}
 	
 	@Override

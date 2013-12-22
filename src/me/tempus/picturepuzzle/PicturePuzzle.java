@@ -25,8 +25,9 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 	private int rowSize = 3;
 	private int columnSize = 3;
 
-	private static boolean pieceSelected = false;
-	private static Piece piece = null;
+	private static boolean pieceSelected = false; //Boolean to keep track if a piece has been selected
+	private static Piece piece = null; //To keep a reference to what piece has been touched/selected
+	private final PieceTransitionAnimation pieceAnimation;
 	private Piece[] pieces;
 
 	private Render render;
@@ -49,6 +50,7 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		this.columnSize = columnSize;
 		this.pictureID  = pictureID;
 		this.gameActivity = gameActivity;
+		this.pieceAnimation = new PieceTransitionAnimation(this);
 	}
 
 	public PicturePuzzle(GameActivity gameActivity2, Render render2,
@@ -86,6 +88,7 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 			
 			
 			InputManager.processInput(this);
+			pieceAnimation.update();
 			render.addDrawables(pieces);
 			//if (render != null)				
 			render.beginFrame();
@@ -188,16 +191,16 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		String[] posistions = grid.split(" ");
 		for(int k = 0; k < posistions.length; k++){
 			if(posistions[k].length() == 2 && posistions[k].charAt(0) == 'n'){
-				pieces[k] = this.pieces[0];
 				int[] cords = getCoordinates(k, rowSize);
-				freePiece.i = cords[0];
-				freePiece.j = cords[1];
+				pieces[k] = this.pieces[0];
+				freePiece.setI(cords[0]);
+				freePiece.setJ(cords[1]);
 			}else{
 				Piece currentPiece = this.pieces[Integer.parseInt(posistions[k])];
 				int[] cords = getCoordinates(k, rowSize);
-				currentPiece.i = cords[0];
-				currentPiece.j = cords[1];
 				pieces[k] = currentPiece;
+				currentPiece.setI(cords[0]);
+				currentPiece.setJ(cords[1]);
 			}
 		}
 		
@@ -225,6 +228,7 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		showWinGameDialog();
 	}
 
+	//A debugging method to check if the grid is valid
 	private boolean validGrid(Piece[] pieces, int rowSize){
 		for(int i = 0; i < pieces.length; i++){
 			Piece p = pieces[i];
@@ -280,8 +284,7 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 				rowSize);
 		final int posTry = getPositionInArray(i, j, rowSize);
 		if (posTry == freePos) {
-			String freePieceStatus = freePiece.toString();
-			swapPiece(piece, freePiece, pieces);
+			pieceAnimation.setAnimationData(piece, freePiece, 200);
 			checkIfComplete(pieces);
 		}
 	}
@@ -304,10 +307,10 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		pieces[pos2] = p;
 		final int i1 = p1.i;
 		final int j1 = p1.j;
-		p1.i = p2.i;
-		p1.j = p2.j;
-		p2.i = i1;
-		p2.j = j1;
+		p1.setI(p2.i);
+		p1.setJ(p2.j);
+		p2.setI(i1);
+		p2.setJ(j1);
 	}
 
 	/**
@@ -488,7 +491,6 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		for(int i = 0; i < pieces.length; i++){
 			Piece currentPiece = pieces[i];
 			if(currentPiece != null){
-				int position = getPositionInArray(currentPiece.i, currentPiece.j, rowSize);
 				grid.append(getPositionInArray(currentPiece.initI, currentPiece.initJ, rowSize)).append(" ");
 			}else{
 				//Log.d("PicturePuzzle", freePiece.toString());
