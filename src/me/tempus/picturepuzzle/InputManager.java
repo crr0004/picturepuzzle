@@ -8,7 +8,7 @@ import android.view.View;
 public class InputManager {
 
 	
-	public static final FixedArray<MotionEvent> events = new FixedArray<MotionEvent>(30);
+	public static final FixedArray<MotionEvent> events = new FixedArray<MotionEvent>(50);
 	
 	public static final FixedArray<KeyEvent> keyEvents = new FixedArray<KeyEvent>(15);
 	

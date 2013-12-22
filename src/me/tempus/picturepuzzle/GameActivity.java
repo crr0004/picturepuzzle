@@ -146,7 +146,16 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		// TODO Auto-generated method stub
+		
 		InputManager.addMotionEvent(v, event);
+		synchronized (this) {
+			try {
+				wait(16);//Prevents the touch events from flooding my handler
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return true;
 	}
 

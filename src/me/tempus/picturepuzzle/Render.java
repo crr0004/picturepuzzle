@@ -78,7 +78,7 @@ public class Render implements Renderer{
 				d.draw(gl);
 				d.postDraw(gl);
 			}
-			//drawables[i + offset] = null;
+			drawables[i + offset] = null;
 		}
 		
 		host.frameEnded(gl);
@@ -245,7 +245,7 @@ public class Render implements Renderer{
 	 * This way there is no way of knowing if one of the drawables didn't get added.
 	 * @param d
 	 */
-	public void addDrawables(List<Piece> pieces){
+	public void addDrawables(Drawable[] pieces){
 		for(Drawable i : pieces){
 			addDrawable(i);
 		}
