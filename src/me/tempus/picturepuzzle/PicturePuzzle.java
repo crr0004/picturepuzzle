@@ -101,6 +101,7 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 				} catch (InterruptedException e) {}
 			}
 		}
+		render.beginFrame();
 	}
 
 	public void setUpButtons(View view) {
@@ -476,6 +477,10 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 	public int getColumnSize() {
 		return columnSize;
 	}
+	
+	public void setDone(boolean done) {
+		this.done = done;		
+	}
 
 	/**
 	 * Creates a string representing the current state of the game's grid. Formated like below
@@ -539,5 +544,7 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 			e.printStackTrace();
 		}
 	}
+
+	
 
 }

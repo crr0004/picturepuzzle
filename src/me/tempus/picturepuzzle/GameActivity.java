@@ -119,7 +119,7 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 	@Override
 	public void onStop(){
 		super.onStop();
-
+		puzzleGame.setDone(true);
 	}
 	
 	@Override
