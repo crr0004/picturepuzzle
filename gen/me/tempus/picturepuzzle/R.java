@@ -94,6 +94,7 @@ public final class R {
         public static final int startingTime=0x7f06000a;
         public static final int stats=0x7f060004;
         public static final int statsButtonText=0x7f060014;
+        public static final int statsFile=0x7f06001b;
         public static final int statsFileName=0x7f060019;
         public static final int title_activity_game=0x7f060012;
         public static final int title_activity_main=0x7f060002;

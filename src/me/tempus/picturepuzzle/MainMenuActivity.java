@@ -1,11 +1,5 @@
 package me.tempus.picturepuzzle;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -128,6 +121,7 @@ public class MainMenuActivity extends Activity {
 				 * Meaning that the first position (top left) has the piece that belongs in the last position, etc
 				 */
 				startGame.putExtra("gameGrid", preferences.getString("gameGrid", ""));
+				startGame.putExtra("startTime", preferences.getLong("startTime", 0));
 				
 				startActivity(startGame);
 					

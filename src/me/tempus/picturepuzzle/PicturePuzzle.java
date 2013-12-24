@@ -1,5 +1,8 @@
 package me.tempus.picturepuzzle;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Random;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -9,6 +12,7 @@ import me.tempus.interfaces.RenderHost;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.SystemClock;
+import android.provider.OpenableColumns;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -61,8 +65,6 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 	}
 
 	public void init() {
-		startTime = SystemClock.uptimeMillis();
-		
 	}
 	
 
@@ -266,6 +268,19 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 				winGameDialog.setTitle(R.string.wingamedialogtitle);
 				winGameDialog.setMessage(R.string.wingame);
 				winGameDialog.create().show();
+				
+				String fileName = gameActivity.getResources().getString(R.string.statsFile);
+				try {
+					FileOutputStream writer = gameActivity.openFileOutput(fileName, gameActivity.MODE_PRIVATE);
+					writer.write(Long.valueOf(startTime).byteValue());
+					writer.close();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		};
 		gameActivity.runOnUiThread(winGame);
@@ -398,7 +413,7 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 	 * Shuffles the pieces and puts the start time back to current phones uptime
 	 */
 	public void resetGame() {
-		startTime = SystemClock.uptimeMillis();
+		//startTime = SystemClock.uptimeMillis(); //Decided not to reset the time. This makes the game more realistic and funnier
 		shuffPieces(pieces);
 				
 	}
@@ -482,6 +497,10 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		this.done = done;		
 	}
 
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+	
 	/**
 	 * Creates a string representing the current state of the game's grid. Formated like below
 	 * E.G 0 9:1 1 4:3 2 5:4 Meaning that the first position has the last piece in it which belongs in the first position
@@ -543,8 +562,6 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-	}
-
-	
+	}	
 
 }

@@ -32,12 +32,12 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 		int rowSize = 3;
 		int columnSize = 3;
 		String grid = null;
+		long startTime = 0;
 		
-		if(intent != null){
-			rowSize = intent.getIntExtra("rowSize", 3);
-			columnSize = intent.getIntExtra("columnSize", 3);
-			grid = intent.getStringExtra("gameGrid");
-		}
+		rowSize = intent.getIntExtra("rowSize", 3);
+		columnSize = intent.getIntExtra("columnSize", 3);
+		grid = intent.getStringExtra("gameGrid");
+		startTime = intent.getLongExtra("startTime", SystemClock.uptimeMillis());
 		
 		GLSurfaceView glSurfaceView = (GLSurfaceView) findViewById(R.id.glView);
 		glSurfaceView.setFocusable(true);
@@ -52,6 +52,7 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 		}else{
 			puzzleGame = new PicturePuzzle(this, render, rowSize, columnSize, R.drawable.nintendo_characters_nintendo_512x512);
 		}
+		puzzleGame.setStartTime(startTime);
 		
 		render.setHost(puzzleGame);
 		render.setRawScreenHeight(getWindowManager().getDefaultDisplay().getHeight());
@@ -112,6 +113,7 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 		editor.putInt("rowSize", puzzleGame.getRowSize());
 		editor.putInt("columnSize", puzzleGame.getColumnSize());
 		editor.putString("gameGrid", puzzleGame.getGrid(puzzleGame.getPieces(), puzzleGame.getFreePiece(), puzzleGame.getRowSize()));
+		editor.putLong("startTime", puzzleGame.getStartTime());
 		
 		editor.commit();
 	}
@@ -120,13 +122,6 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 	public void onStop(){
 		super.onStop();
 		puzzleGame.setDone(true);
-	}
-	
-	@Override
-	public void onSaveInstanceState(Bundle saveInstanceState){
-//		saveInstanceState.putInt("rowSize", puzzleGame.getRowSize());
-//		saveInstanceState.putInt("columnSize", puzzleGame.getColumnSize());
-//		saveInstanceState.putString("gameGrid", puzzleGame.getGrid());
 	}
 	
 	@Override

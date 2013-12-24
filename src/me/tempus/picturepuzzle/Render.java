@@ -2,7 +2,6 @@ package me.tempus.picturepuzzle;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
