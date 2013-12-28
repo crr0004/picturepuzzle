@@ -176,8 +176,8 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 			}
 		}
 		pieces[getPositionInArray(0, 0, rowPieces)] = null;
-		freePiece.getRect().height = Piece.getPieceHeight();
 		freePiece.getRect().width = Piece.getPieceWidth();
+		freePiece.getRect().height = Piece.getPieceHeight();
 
 		
 	}
@@ -272,7 +272,7 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 				String fileName = gameActivity.getResources().getString(R.string.statsFile);
 				try {
 					FileOutputStream writer = gameActivity.openFileOutput(fileName, gameActivity.MODE_PRIVATE);
-					writer.write(Long.valueOf(startTime).byteValue());
+					//writer.write(Long.valueOf(startTime).byteValue());
 					writer.close();
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -441,11 +441,14 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 		case MotionEvent.ACTION_UP:
 			piece = null;
 			pieceSelected = false;
+			
+			
 			break;
 		case MotionEvent.ACTION_MOVE:
+			
 			if (piece != null && pieceSelected) {
 				final float x = event.getRawX();
-				final float y = render.getRawScreenHeight() - event.getY();
+				final float y = render.getRawScreenHeight() - event.getRawY();
 
 				if (Rectangle.pointIntersects(x, y, freePiece.getRect())) {
 					movePieceTo(piece, freePiece.i, freePiece.j);

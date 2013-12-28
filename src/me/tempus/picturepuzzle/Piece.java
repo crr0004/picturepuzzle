@@ -4,6 +4,8 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11Ext;
 
+import me.tempus.interfaces.AABB;
+
 public class Piece implements AABB, Drawable {
 
 	//Global data
@@ -21,7 +23,7 @@ public class Piece implements AABB, Drawable {
 	public int initJ;
 	public float x;
 	public float y;
-	private final Rectangle rect;
+	public final Rectangle rect;
 	private final int[] textureRect;
 
 	public Piece(int i, int j, int[] textureRect) {
@@ -43,17 +45,14 @@ public class Piece implements AABB, Drawable {
 		this.initI = initI;
 		this.initJ = initJ;
 	}
-	/**
-	 * Will update and return the area covered by this piece in the form of a rectangle
-	 * See AABB for use in collision detection
-	 * @return A rectangle representing the area covered by this piece
-	 */
-	public Rectangle getRect() {
-		rect.x = i * pieceWidth;
-		rect.y = j * pieceHeight;
+
+	@Override
+	public Rectangle getRect(){
+		rect.x = x;
+		rect.y = y;
 		return rect;
 	}
-
+	
 	public void preDraw(GL10 gl) {}
 
 	public void draw(GL10 gl) {
@@ -114,6 +113,8 @@ public class Piece implements AABB, Drawable {
 		//TODO Change this to a string builder
 		return "(" + i + ", " + j + ")" + " Width, Height: " + pieceHeight + ", " + pieceWidth + " (" + i*pieceWidth + ", " + j*pieceHeight + ")";
 	}
+
+
 
 
 }
