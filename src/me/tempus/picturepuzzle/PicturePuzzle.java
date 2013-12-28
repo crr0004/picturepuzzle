@@ -432,6 +432,7 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 
 		case MotionEvent.ACTION_DOWN:
 			if (!pieceSelected) {
+				piece = null;
 				piece = processTouchDownEvent(activePieces, event);
 				if(piece != null){
 					pieceSelected = true;
@@ -439,20 +440,20 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 			}
 			break;
 		case MotionEvent.ACTION_UP:
-			piece = null;
-			pieceSelected = false;
-			
+			pieceSelected = false;			
 			
 			break;
 		case MotionEvent.ACTION_MOVE:
 			
-			if (piece != null && pieceSelected) {
+			if (pieceSelected) {
 				final float x = event.getRawX();
 				final float y = render.getRawScreenHeight() - event.getRawY();
 
 				if (Rectangle.pointIntersects(x, y, freePiece.getRect())) {
 					movePieceTo(piece, freePiece.i, freePiece.j);
+					pieceSelected = false;
 				}
+				
 			}			
 			break;
 		case MotionEvent.ACTION_CANCEL:
