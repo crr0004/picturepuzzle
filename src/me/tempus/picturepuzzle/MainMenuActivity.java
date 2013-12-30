@@ -96,6 +96,7 @@ public class MainMenuActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent goToStatsActivity = new Intent(thisContext, StatsActivity.class);
+				//goToStatsActivity.putExtra("winTime", Long.valueOf(200));
 				startActivity(goToStatsActivity);
 			}
 			

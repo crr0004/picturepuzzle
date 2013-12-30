@@ -268,19 +268,6 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 				winGameDialog.setTitle(R.string.wingamedialogtitle);
 				winGameDialog.setMessage(R.string.wingame);
 				winGameDialog.create().show();
-				
-				String fileName = gameActivity.getResources().getString(R.string.statsFile);
-				try {
-					FileOutputStream writer = gameActivity.openFileOutput(fileName, gameActivity.MODE_PRIVATE);
-					//writer.write(Long.valueOf(startTime).byteValue());
-					writer.close();
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 		};
 		gameActivity.runOnUiThread(winGame);
