@@ -1,8 +1,5 @@
 package me.tempus.picturepuzzle;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Random;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -11,8 +8,9 @@ import me.tempus.interfaces.InputManagerReceiver;
 import me.tempus.interfaces.RenderHost;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.SystemClock;
-import android.provider.OpenableColumns;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -76,7 +74,7 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 			pieces = loadGrid(grid, picture, render, freePiece, rowSize, columnSize);
 		}else{
 			setUpGrid(rowSize, columnSize, picture.width, picture.height);
-			shuffPieces(pieces);
+			//shuffPieces(pieces);
 		}
 		long currentTime = 0;
 		long delta = 0;
@@ -267,6 +265,18 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 				AlertDialog.Builder winGameDialog = new AlertDialog.Builder(gameActivity);
 				winGameDialog.setTitle(R.string.wingamedialogtitle);
 				winGameDialog.setMessage(R.string.wingame);
+				winGameDialog.setPositiveButton(R.string.wingamedialogbuttontext, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface arg0, int arg1) {
+						Intent startStatsActivity = new Intent();
+						startStatsActivity.setClass(gameActivity, StatsActivity.class);
+						startStatsActivity.putExtra("winTime", new WinTime(SystemClock.uptimeMillis() - startTime));
+						
+						gameActivity.startActivity(startStatsActivity);
+						
+					}
+				});
 				winGameDialog.create().show();
 			}
 		};

@@ -22,7 +22,7 @@ import android.widget.ListView;
 
 public class StatsActivity extends Activity {
 
-	private List<Long> times = new ArrayList<Long>(5);
+	private List<WinTime> times = new ArrayList<WinTime>(5);
 	private ListAdapter adapter;
 	
 	@Override
@@ -33,11 +33,11 @@ public class StatsActivity extends Activity {
 		Intent starter = getIntent();
 		
 		ListView statsList = (ListView)findViewById(R.id.statsListView);
-		adapter = new ArrayAdapter<Long>(this, android.R.layout.simple_list_item_1, times);
+		adapter = new ArrayAdapter<WinTime>(this, android.R.layout.simple_list_item_1, times);
 		statsList.setAdapter(adapter);
 		
 		if(starter != null){
-			addTime(starter.getLongExtra("winTime", -1));
+			addTime((WinTime) starter.getSerializableExtra("winTime"));
 		}
 		
 		new GetTimes().execute(this);
@@ -52,8 +52,8 @@ public class StatsActivity extends Activity {
 		try {
 			writer = new BufferedWriter(new FileWriter(openFileOutput(fileName, MODE_PRIVATE).getFD()));
 			StringBuilder output = new StringBuilder();
-			for(Long time : this.times){
-				output.append(time).append('\n');
+			for(WinTime time : this.times){
+				output.append(time.getTime()).append('\n');
 			}
 			writer.write(output.toString());
 		} catch (FileNotFoundException e) {
@@ -77,8 +77,8 @@ public class StatsActivity extends Activity {
 		return true;
 	}
 
-	public void addTime(Long time){
-		if(time != -1){
+	public void addTime(WinTime time){
+		if(time != null){
 			times.add(time);
 		}
 	}
@@ -98,7 +98,7 @@ class GetTimes extends AsyncTask<StatsActivity, Object, Object>{
 			reader = new BufferedReader(new FileReader(caller[0].openFileInput(fileName).getFD()));
 			currentLine = reader.readLine();
 			while(currentLine != null){
-				caller[0].addTime(Long.parseLong(currentLine));
+				caller[0].addTime(new WinTime(Long.parseLong(currentLine)));
 				currentLine = reader.readLine();
 			}
 		}catch(FileNotFoundException e){

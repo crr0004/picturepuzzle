@@ -44,5 +44,6 @@
     <string name="statsFileName">stats</string>
     <string name="sharedPrefencesName">gamePrefences</string>
     <string name="statsFile">stats</string>
+    <string name="wingamedialogbuttontext">Done</string>
 
 </resources>
