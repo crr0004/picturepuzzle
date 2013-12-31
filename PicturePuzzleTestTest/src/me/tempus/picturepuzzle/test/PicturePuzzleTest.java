@@ -31,7 +31,7 @@ public class PicturePuzzleTest extends TestCase {
 		pieces.add(piece2);
 		
 		PicturePuzzle test = new PicturePuzzle(null, null, rowSize, rowSize, 0);
-		test.swapPiece(piece1, piece2, pieces);
+		//test.swapPiece(piece1, piece2, pieces);
 		
 		//assertTrue(String.format("Piece 1 pos was %d not $d", PicturePuzzle.getPositionInArray(newPiece1.initI, j, n)))
 	}
