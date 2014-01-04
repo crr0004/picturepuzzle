@@ -14,17 +14,23 @@ public class WinTime implements Serializable {
 
 	private static final long serialVersionUID = -1834367984330374038L;
 	private long time;
-	
+	private String name;
 	
 	public WinTime(long time) {
 		super();
 		this.time = time;
 	}
 
+	public WinTime(long winTime, String name) {
+		this.time = winTime;
+		this.name = name;
+	}
+
 	public String toString(){
 		StringBuilder timeAsString = new StringBuilder();
 		
-		timeAsString.append((time/(1000*60*60)%60)).append(":")
+		timeAsString.append(name).append('\t')
+		.append((time/(1000*60*60)%60)).append(":")
 		  .append((int)(time/(1000*60)%60)).append(":")
 		  .append((int)(time/1000)%60); 
 		
@@ -34,6 +40,10 @@ public class WinTime implements Serializable {
 	public long getTime() {
 		// TODO Auto-generated method stub
 		return time;
+	}
+
+	public String getName() {
+		return name;
 	}
 	
 }

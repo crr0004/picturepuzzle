@@ -34,10 +34,18 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 		String grid = null;
 		long startTime = 0;
 		
-		rowSize = intent.getIntExtra("rowSize", 3);
-		columnSize = intent.getIntExtra("columnSize", 3);
-		grid = intent.getStringExtra("gameGrid");
-		startTime = intent.getLongExtra("startTime", SystemClock.uptimeMillis());
+		if(savedInstanceState != null){
+			rowSize = savedInstanceState.getInt("rowSize", 3);
+			columnSize = savedInstanceState.getInt("columnSize", 3);
+			grid = savedInstanceState.getString("gameGrid");
+			startTime = savedInstanceState.getLong("startTime", SystemClock.uptimeMillis());
+		}else if(intent != null){
+			rowSize = intent.getIntExtra("rowSize", 3);
+			columnSize = intent.getIntExtra("columnSize", 3);
+			grid = intent.getStringExtra("gameGrid");
+			startTime = intent.getLongExtra("startTime", SystemClock.uptimeMillis());
+		}
+		
 		
 		GLSurfaceView glSurfaceView = (GLSurfaceView) findViewById(R.id.glView);
 		glSurfaceView.setFocusable(true);
@@ -107,6 +115,22 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 	public void onPause(){
 		super.onPause();
 		
+		
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle save){
+		super.onSaveInstanceState(save);
+		
+		save.putInt("rowSize", puzzleGame.getRowSize());
+		save.putInt("columnSize", puzzleGame.getColumnSize());
+		save.putString("gameGrid", puzzleGame.getGrid(puzzleGame.getPieces(), puzzleGame.getFreePiece(), puzzleGame.getRowSize()));
+		save.putLong("startTime", puzzleGame.getStartTime());
+	}
+	
+	@Override
+	public void onStop(){
+		super.onStop();
 		SharedPreferences prefences = getSharedPreferences(this.getResources().getString(R.string.sharedPrefencesName), MODE_PRIVATE);
 		SharedPreferences.Editor editor = prefences.edit();
 		
@@ -116,11 +140,6 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 		editor.putLong("startTime", puzzleGame.getStartTime());
 		
 		editor.commit();
-	}
-	
-	@Override
-	public void onStop(){
-		super.onStop();
 		puzzleGame.setDone(true);
 	}
 	

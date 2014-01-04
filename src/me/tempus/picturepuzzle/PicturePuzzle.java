@@ -12,10 +12,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver {
 
@@ -230,6 +232,7 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 	}
 
 	//A debugging method to check if the grid is valid
+	@SuppressWarnings("unused")
 	private boolean validGrid(Piece[] pieces, int rowSize){
 		for(int i = 0; i < pieces.length; i++){
 			Piece p = pieces[i];
@@ -256,22 +259,25 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 	}
 	
 	private void showWinGameDialog() {
-		// TODO Auto-generated method stub
+		final long winGameTime = startTime;
 		Runnable winGame = new Runnable() {
 			
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				AlertDialog.Builder winGameDialog = new AlertDialog.Builder(gameActivity);
-				winGameDialog.setTitle(R.string.wingamedialogtitle);
-				winGameDialog.setMessage(R.string.wingame);
+				winGameDialog.setTitle(R.string.wingame);
+				LayoutInflater inflater = (LayoutInflater)gameActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		        View winGameViewContent = inflater.inflate(R.layout.wingamedialog, null);
+		        
+		        final TextView nameInput = (TextView) winGameViewContent.findViewById(R.id.enterNameEditText);
+				winGameDialog.setView(winGameViewContent);
 				winGameDialog.setPositiveButton(R.string.wingamedialogbuttontext, new DialogInterface.OnClickListener() {
 					
 					@Override
 					public void onClick(DialogInterface arg0, int arg1) {
 						Intent startStatsActivity = new Intent();
 						startStatsActivity.setClass(gameActivity, StatsActivity.class);
-						startStatsActivity.putExtra("winTime", new WinTime(SystemClock.uptimeMillis() - startTime));
+						startStatsActivity.putExtra("winTime", new WinTime(SystemClock.uptimeMillis() - winGameTime, nameInput.getText().toString()));
 						
 						gameActivity.startActivity(startStatsActivity);
 						

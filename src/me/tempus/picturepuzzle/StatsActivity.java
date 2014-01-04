@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -53,7 +52,7 @@ public class StatsActivity extends Activity {
 			writer = new BufferedWriter(new FileWriter(openFileOutput(fileName, MODE_PRIVATE).getFD()));
 			StringBuilder output = new StringBuilder();
 			for(WinTime time : this.times){
-				output.append(time.getTime()).append('\n');
+				output.append(time.getTime()).append("~").append(time.getName()).append('\n');
 			}
 			writer.write(output.toString());
 		} catch (FileNotFoundException e) {
@@ -98,7 +97,12 @@ class GetTimes extends AsyncTask<StatsActivity, Object, Object>{
 			reader = new BufferedReader(new FileReader(caller[0].openFileInput(fileName).getFD()));
 			currentLine = reader.readLine();
 			while(currentLine != null){
-				caller[0].addTime(new WinTime(Long.parseLong(currentLine)));
+				String[] timeData = currentLine.split("~");
+				if(timeData.length == 2){
+					caller[0].addTime(new WinTime(Long.parseLong(timeData[0]), timeData[1]));
+				}else if(timeData.length == 1){
+					caller[0].addTime(new WinTime(Long.parseLong(timeData[0]), "N/A"));
+				}				
 				currentLine = reader.readLine();
 			}
 		}catch(FileNotFoundException e){

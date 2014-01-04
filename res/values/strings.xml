@@ -45,5 +45,8 @@
     <string name="sharedPrefencesName">gamePrefences</string>
     <string name="statsFile">stats</string>
     <string name="wingamedialogbuttontext">Done</string>
+    <string name="enternameprompt">Enter your name</string>
+    <string name="enternamehint">Enter your name</string>
+    <string name="highscorestitle">HIGHSCORES</string>
 
 </resources>
