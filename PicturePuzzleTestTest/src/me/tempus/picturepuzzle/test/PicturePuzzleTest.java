@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
-import me.tempus.picturepuzzle.PicturePuzzle;
-import me.tempus.picturepuzzle.Piece;
+import me.crr.picturepuzzle.PicturePuzzle;
+import me.crr.picturepuzzle.Piece;
 
 public class PicturePuzzleTest extends TestCase {
 

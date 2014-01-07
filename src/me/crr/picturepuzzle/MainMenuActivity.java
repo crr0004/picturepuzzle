@@ -1,5 +1,6 @@
-package me.tempus.picturepuzzle;
+package me.crr.picturepuzzle;
 
+import me.tempus.picturepuzzle.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -46,7 +47,7 @@ public class MainMenuActivity extends Activity {
 		 * Sets the buttons backgrounds to change when pressed
 		 */
 		Button enterGameButton = (Button)findViewById(R.id.enterGameButton);
-		Button continueGameButton = (Button)findViewById(R.id.continueGameButton);
+		Button continueGameButton = (Button)findViewById(R.id.goToMainMenuButton);
 		Button statsButton = (Button)findViewById(R.id.statsButton);
 		
 		enterGameButton.setOnTouchListener(mainMenuButtonBackgroundListener );
@@ -71,16 +72,16 @@ public class MainMenuActivity extends Activity {
 						
 						switch(which){
 						case 0:
-							intent.putExtra("rowSize", 3);
-							intent.putExtra("columnSize", 3);
+							intent.putExtra("me.crr.picturepuzzle.rowSize", 3);
+							intent.putExtra("me.crr.picturepuzzle.columnSize", 3);
 							break;
 						case 1:
-							intent.putExtra("rowSize", 4);
-							intent.putExtra("columnSize", 4);
+							intent.putExtra("me.crr.picturepuzzle.rowSize", 4);
+							intent.putExtra("me.crr.picturepuzzle.columnSize", 4);
 							break;
 						case 2:
-							intent.putExtra("rowSize", 5);
-							intent.putExtra("columnSize", 5);
+							intent.putExtra("me.crr.picturepuzzle.rowSize", 5);
+							intent.putExtra("me.crr.picturepuzzle.columnSize", 5);
 							break;
 						}
 						startActivity(intent);
@@ -102,7 +103,7 @@ public class MainMenuActivity extends Activity {
 			
 		});
 		
-		if(!isCachedGame()){
+		if(isCachedGame()){
 			continueGameButton.setVisibility(View.GONE);
 		}
 		
@@ -113,16 +114,16 @@ public class MainMenuActivity extends Activity {
 				Intent startGame = new Intent(thisContext, GameActivity.class);
 				
 				SharedPreferences preferences = getSharedPreferences(thisContext.getResources().getString(R.string.sharedPrefencesName), MODE_PRIVATE);
-				startGame.putExtra("rowSize", preferences.getInt("rowSize", 3));
-				startGame.putExtra("columnSize", preferences.getInt("columnSize", 3));
+				startGame.putExtra("me.crr.picturepuzzle.rowSize", preferences.getInt("me.crr.picturepuzzle.rowSize", 3));
+				startGame.putExtra("me.crr.picturepuzzle.columnSize", preferences.getInt("me.crr.picturepuzzle.columnSize", 3));
 				
 				/*
 				 * Format of the grid when saved is that each position in the grid is given the piece that is there
 				 * E.G 0 9 1 3 2 6
 				 * Meaning that the first position (top left) has the piece that belongs in the last position, etc
 				 */
-				startGame.putExtra("gameGrid", preferences.getString("gameGrid", ""));
-				startGame.putExtra("startTime", preferences.getLong("startTime", 0));
+				startGame.putExtra("me.crr.picturepuzzle.gameGrid", preferences.getString("me.crr.picturepuzzle.gameGrid", ""));
+				startGame.putExtra("me.crr.picturepuzzle.startTime", preferences.getLong("me.crr.picturepuzzle.startTime", 0));
 				
 				startActivity(startGame);
 					
@@ -134,7 +135,7 @@ public class MainMenuActivity extends Activity {
 	
 	private boolean isCachedGame() {
 		SharedPreferences preferences = getSharedPreferences(this.getResources().getString(R.string.sharedPrefencesName), MODE_PRIVATE);
-		return preferences.getString("gameGrid", "") != "" ? true : false;
+		return preferences.getBoolean("me.crr.picturepuzzle.continue", false);
 	}
 
 

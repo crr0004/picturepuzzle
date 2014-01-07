@@ -1,6 +1,6 @@
-package me.tempus.picturepuzzle;
+package me.crr.picturepuzzle;
 
-import me.tempus.interfaces.InputManagerReceiver;
+import me.crr.interfaces.InputManagerReceiver;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;

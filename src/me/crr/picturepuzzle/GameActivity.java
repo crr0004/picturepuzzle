@@ -1,5 +1,6 @@
-package me.tempus.picturepuzzle;
+package me.crr.picturepuzzle;
 
+import me.tempus.picturepuzzle.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,18 +33,18 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 		int rowSize = 3;
 		int columnSize = 3;
 		String grid = null;
-		long startTime = 0;
+		long startTime = SystemClock.uptimeMillis();
 		
 		if(savedInstanceState != null){
-			rowSize = savedInstanceState.getInt("rowSize", 3);
-			columnSize = savedInstanceState.getInt("columnSize", 3);
-			grid = savedInstanceState.getString("gameGrid");
-			startTime = savedInstanceState.getLong("startTime", SystemClock.uptimeMillis());
+			rowSize = savedInstanceState.getInt("me.crr.picturepuzzle.rowSize", 3);
+			columnSize = savedInstanceState.getInt("me.crr.picturepuzzle.columnSize", 3);
+			grid = savedInstanceState.getString("me.crr.picturepuzzle.gameGrid");
+			startTime = savedInstanceState.getLong("me.crr.picturepuzzle.startTime", SystemClock.uptimeMillis());
 		}else if(intent != null){
-			rowSize = intent.getIntExtra("rowSize", 3);
-			columnSize = intent.getIntExtra("columnSize", 3);
-			grid = intent.getStringExtra("gameGrid");
-			startTime = intent.getLongExtra("startTime", SystemClock.uptimeMillis());
+			rowSize = intent.getIntExtra("me.crr.picturepuzzle.rowSize", 3);
+			columnSize = intent.getIntExtra("me.crr.picturepuzzle.columnSize", 3);
+			grid = intent.getStringExtra("me.crr.picturepuzzle.gameGrid");
+			startTime = intent.getLongExtra("me.crr.picturepuzzle.startTime", SystemClock.uptimeMillis());
 		}
 		
 		
@@ -114,18 +115,22 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 	@Override
 	public void onPause(){
 		super.onPause();
+		SharedPreferences prefences = getSharedPreferences(this.getResources().getString(R.string.sharedPrefencesName), MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefences.edit();
 		
+		editor.putBoolean("me.crr.picturepuzzle.continue", true);
 		
+		editor.commit();
 	}
 	
 	@Override
 	public void onSaveInstanceState(Bundle save){
 		super.onSaveInstanceState(save);
 		
-		save.putInt("rowSize", puzzleGame.getRowSize());
-		save.putInt("columnSize", puzzleGame.getColumnSize());
-		save.putString("gameGrid", puzzleGame.getGrid(puzzleGame.getPieces(), puzzleGame.getFreePiece(), puzzleGame.getRowSize()));
-		save.putLong("startTime", puzzleGame.getStartTime());
+		save.putInt("me.crr.picturepuzzle.rowSize", puzzleGame.getRowSize());
+		save.putInt("me.crr.picturepuzzle.columnSize", puzzleGame.getColumnSize());
+		save.putString("me.crr.picturepuzzle.gameGrid", puzzleGame.getGrid(puzzleGame.getPieces(), puzzleGame.getFreePiece(), puzzleGame.getRowSize()));
+		save.putLong("me.crr.picturepuzzle.startTime", puzzleGame.getStartTime());
 	}
 	
 	@Override
@@ -134,10 +139,10 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 		SharedPreferences prefences = getSharedPreferences(this.getResources().getString(R.string.sharedPrefencesName), MODE_PRIVATE);
 		SharedPreferences.Editor editor = prefences.edit();
 		
-		editor.putInt("rowSize", puzzleGame.getRowSize());
-		editor.putInt("columnSize", puzzleGame.getColumnSize());
-		editor.putString("gameGrid", puzzleGame.getGrid(puzzleGame.getPieces(), puzzleGame.getFreePiece(), puzzleGame.getRowSize()));
-		editor.putLong("startTime", puzzleGame.getStartTime());
+		editor.putInt("me.crr.picturepuzzle.rowSize", puzzleGame.getRowSize());
+		editor.putInt("me.crr.picturepuzzle.columnSize", puzzleGame.getColumnSize());
+		editor.putString("me.crr.picturepuzzle.gameGrid", puzzleGame.getGrid(puzzleGame.getPieces(), puzzleGame.getFreePiece(), puzzleGame.getRowSize()));
+		editor.putLong("sme.crr.picturepuzzle.tartTime", puzzleGame.getStartTime());
 		
 		editor.commit();
 		puzzleGame.setDone(true);
@@ -151,7 +156,6 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 	
 	@Override
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		
 		InputManager.addKeyEvent(v, keyCode, event);
 		return true;
@@ -166,7 +170,6 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 			try {
 				wait(16);//Prevents the touch events from flooding my handler
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -175,7 +178,6 @@ public class GameActivity extends Activity implements OnClickListener, OnTouchLi
 
 	@Override
 	public void onClick(View view) {
-		// TODO Auto-generated method stub
 	}
 
 	

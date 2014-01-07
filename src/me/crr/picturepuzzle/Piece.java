@@ -1,10 +1,10 @@
-package me.tempus.picturepuzzle;
+package me.crr.picturepuzzle;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11Ext;
 
-import me.tempus.interfaces.AABB;
+import me.crr.interfaces.AABB;
 
 public class Piece implements AABB, Drawable {
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package me.tempus.picturepuzzle;
+package me.crr.picturepuzzle;
 
 /**
  * @author Chris

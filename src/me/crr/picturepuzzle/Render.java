@@ -1,4 +1,4 @@
-package me.tempus.picturepuzzle;
+package me.crr.picturepuzzle;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,7 +8,7 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11Ext;
 
-import me.tempus.interfaces.RenderHost;
+import me.crr.interfaces.RenderHost;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

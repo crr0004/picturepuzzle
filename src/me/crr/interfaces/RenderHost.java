@@ -1,4 +1,4 @@
-package me.tempus.interfaces;
+package me.crr.interfaces;
 
 import javax.microedition.khronos.opengles.GL10;
 

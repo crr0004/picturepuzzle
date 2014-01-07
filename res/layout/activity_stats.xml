@@ -12,6 +12,7 @@
         android:id="@+id/statsListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/goToMainMenuButton"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView1" >
 
@@ -29,5 +30,15 @@
         android:text="@string/highscorestitle"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/goToMainMenuButton"
+        style="@style/MainMenuButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/mainmenu_buttonbackground_gradient_on"
+        android:text="@string/mainmenu" />
 
 </RelativeLayout>

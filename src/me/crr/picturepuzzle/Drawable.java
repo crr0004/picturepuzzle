@@ -1,4 +1,4 @@
-package me.tempus.picturepuzzle;
+package me.crr.picturepuzzle;
 
 import javax.microedition.khronos.opengles.GL10;
 

@@ -1,15 +1,17 @@
-package me.tempus.picturepuzzle;
+package me.crr.picturepuzzle;
 
 import java.util.Random;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import me.tempus.interfaces.InputManagerReceiver;
-import me.tempus.interfaces.RenderHost;
+import me.crr.interfaces.InputManagerReceiver;
+import me.crr.interfaces.RenderHost;
+import me.tempus.picturepuzzle.R;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -277,7 +279,14 @@ public class PicturePuzzle implements Runnable, RenderHost, InputManagerReceiver
 					public void onClick(DialogInterface arg0, int arg1) {
 						Intent startStatsActivity = new Intent();
 						startStatsActivity.setClass(gameActivity, StatsActivity.class);
-						startStatsActivity.putExtra("winTime", new WinTime(SystemClock.uptimeMillis() - winGameTime, nameInput.getText().toString()));
+						startStatsActivity.putExtra("me.crr.picturepuzzle.winTime", new WinTime(SystemClock.uptimeMillis() - winGameTime, nameInput.getText().toString()));
+						
+						SharedPreferences prefences = gameActivity.getSharedPreferences(gameActivity.getResources().getString(R.string.sharedPrefencesName), Context.MODE_PRIVATE);
+						SharedPreferences.Editor editor = prefences.edit();
+						
+						editor.putBoolean("me.crr.picturepuzzle.continue", false);
+						
+						editor.commit();
 						
 						gameActivity.startActivity(startStatsActivity);
 						

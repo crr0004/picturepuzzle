@@ -48,5 +48,6 @@
     <string name="enternameprompt">Enter your name</string>
     <string name="enternamehint">Enter your name</string>
     <string name="highscorestitle">HIGHSCORES</string>
+    <string name="mainmenu">MAIN MENU</string>
 
 </resources>

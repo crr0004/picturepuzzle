@@ -1,4 +1,4 @@
-package me.tempus.picturepuzzle;
+package me.crr.picturepuzzle;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,13 +9,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.tempus.picturepuzzle.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -29,6 +34,36 @@ public class StatsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_stats);
 		
+		Button goMainMenu = (Button) findViewById(R.id.goToMainMenuButton);
+		goMainMenu.setOnTouchListener(new OnTouchListener() {			
+		@Override
+		public boolean onTouch(View view, MotionEvent event) {				
+			final int action = event.getAction();
+			switch (action){
+			
+				case MotionEvent.ACTION_DOWN:
+					view.setBackgroundResource(R.drawable.mainmenu_buttonbackground_gradient_off);
+					break;
+				case MotionEvent.ACTION_UP:
+					view.setBackgroundResource(R.drawable.mainmenu_buttonbackground_gradient_on);
+					break;
+			
+			}
+			
+			return false;
+		
+		}
+		});
+		
+		goMainMenu.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent goToMainMenu = new Intent(StatsActivity.this, MainMenuActivity.class);
+				startActivity(goToMainMenu);
+			}
+		});
+		
 		Intent starter = getIntent();
 		
 		ListView statsList = (ListView)findViewById(R.id.statsListView);
@@ -36,7 +71,7 @@ public class StatsActivity extends Activity {
 		statsList.setAdapter(adapter);
 		
 		if(starter != null){
-			addTime((WinTime) starter.getSerializableExtra("winTime"));
+			addTime((WinTime) starter.getSerializableExtra("me.crr.picturepuzzle.winTime"));
 		}
 		
 		new GetTimes().execute(this);
@@ -83,25 +118,28 @@ public class StatsActivity extends Activity {
 	}
 }
 
-class GetTimes extends AsyncTask<StatsActivity, Object, Object>{
+class GetTimes extends AsyncTask<StatsActivity, WinTime, Object>{
 
+	private StatsActivity caller;
+	
 	@Override
-	protected Object doInBackground(StatsActivity... caller) {
+	protected Object doInBackground(StatsActivity... callers) {
+		this.caller = callers[0];
 		
 		BufferedReader reader = null;
-		String fileName = caller[0].getResources().getString(R.string.statsFile);
+		String fileName = caller.getResources().getString(R.string.statsFile);
 		
 		
 		String currentLine;
 		try {
-			reader = new BufferedReader(new FileReader(caller[0].openFileInput(fileName).getFD()));
+			reader = new BufferedReader(new FileReader(caller.openFileInput(fileName).getFD()));
 			currentLine = reader.readLine();
 			while(currentLine != null){
 				String[] timeData = currentLine.split("~");
 				if(timeData.length == 2){
-					caller[0].addTime(new WinTime(Long.parseLong(timeData[0]), timeData[1]));
+					publishProgress(new WinTime(Long.parseLong(timeData[0]), timeData[1]));
 				}else if(timeData.length == 1){
-					caller[0].addTime(new WinTime(Long.parseLong(timeData[0]), "N/A"));
+					publishProgress(new WinTime(Long.parseLong(timeData[0]), "N/A"));
 				}				
 				currentLine = reader.readLine();
 			}
@@ -121,6 +159,11 @@ class GetTimes extends AsyncTask<StatsActivity, Object, Object>{
 		
 		
 		return null;
+	}
+	
+	@Override
+	protected void onProgressUpdate(WinTime...times){
+		caller.addTime(times[0]);
 	}
 	
 }
