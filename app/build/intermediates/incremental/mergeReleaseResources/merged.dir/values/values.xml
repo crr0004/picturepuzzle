@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="difficulties">
+        <item>3x3</item>
+        <item>4x4</item>
+        <item>5x5</item>
+    </string-array>
+    <color name="headspace_gray">#797d81</color>
+    <color name="headspace_green">#7cad38</color>
+    <color name="headspace_light_organge">#f6b35c</color>
+    <color name="headspace_lightgray">#cccccc</color>
+    <color name="headspace_orange">#f29215</color>
+    <color name="white">#ffffff</color>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <string name="about">ABOUT HEADSPACE</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">Picture Puzzle</string>
+    <string name="back">BACK</string>
+    <string name="cacheGameDir">lastgame</string>
+    <string name="continueGameButtonText">CONTINUE</string>
+    <string name="difficultyPromt">SELECT YOUR GRID SIZE</string>
+    <string name="easy">3x3</string>
+    <string name="enternamehint">Enter your name</string>
+    <string name="enternameprompt">Enter your name</string>
+    <string name="hard">6x6</string>
+    <string name="headspacelogodescription">The Headspace Logo</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="highscorestitle">HIGHSCORES</string>
+    <string name="mainmenu">MAIN MENU</string>
+    <string name="medium">4x4</string>
+    <string name="menu_settings">Settings</string>
+    <string name="newGame">NEW GAME</string>
+    <string name="quit">EXIT</string>
+    <string name="reset">RESET</string>
+    <string name="settings">SETTINGS</string>
+    <string name="sharedPrefencesName">gamePrefences</string>
+    <string name="startingTime">00:00:00</string>
+    <string name="stats">STATS</string>
+    <string name="statsButtonText">HIGHSCORES</string>
+    <string name="statsFile">stats</string>
+    <string name="statsFileName">stats</string>
+    <string name="title_activity_game">Picture Puzzle</string>
+    <string name="title_activity_main">Picture Puzzle</string>
+    <string name="title_activity_stats">High Scores</string>
+    <string name="wingame">Congratulations you\'ve completed the puzzle!</string>
+    <string name="wingamedialogbuttontext">Done</string>
+    <string name="wingamedialogtitle">You\'ve Won!</string>
+    <style name="AppTheme" parent="android:Theme.Light"/>
+    <style name="MainMenuButton" parent="android:Widget.Button">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:background">@drawable/mainmenu_buttonbackground_gradient_on</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:padding">15dp</item>
+    </style>
+    <style name="gameButtonStyle" parent="android:Widget.Button">
+        <item name="android:layout_margin">7dp</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:paddingLeft">28dp</item>
+        <item name="android:paddingRight">28dp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:background">@color/headspace_green</item>
+    </style>
+</resources>

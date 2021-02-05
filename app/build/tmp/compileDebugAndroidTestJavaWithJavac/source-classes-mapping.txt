@@ -1,0 +1,2 @@
+me/crr/picturepuzzle/test/BuildConfig.java
+ me.crr.picturepuzzle.test.BuildConfig

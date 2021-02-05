@@ -1,0 +1,57 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="me.crr.picturepuzzle"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="10"
+8-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="10" />
+9-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml
+10
+11    <application
+11-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:7:5-29:19
+12        android:allowBackup="true"
+12-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:8:9-35
+13        android:debuggable="true"
+14        android:icon="@drawable/ic_launcher"
+14-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:9:9-45
+15        android:label="@string/app_name"
+15-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:10:9-41
+16        android:theme="@style/AppTheme" >
+16-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:11:9-40
+17        <activity
+17-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:12:9-20:20
+18            android:name="me.crr.picturepuzzle.MainMenuActivity"
+18-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:13:13-65
+19            android:label="@string/app_name" >
+19-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:14:13-45
+20            <intent-filter>
+20-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:15:13-19:29
+21                <action android:name="android.intent.action.MAIN" />
+21-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:16:17-69
+21-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:16:25-66
+22
+23                <category android:name="android.intent.category.LAUNCHER" />
+23-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:18:17-77
+23-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:18:27-74
+24            </intent-filter>
+25        </activity>
+26        <activity
+26-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:21:9-24:20
+27            android:name="me.crr.picturepuzzle.GameActivity"
+27-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:22:13-61
+28            android:label="@string/title_activity_game" >
+28-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:23:13-56
+29        </activity>
+30        <activity
+30-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:25:9-28:20
+31            android:name="me.crr.picturepuzzle.StatsActivity"
+31-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:26:13-62
+32            android:label="@string/title_activity_stats" >
+32-->F:\dev\StudioProjects\picturepuzzle1\app\src\main\AndroidManifest.xml:27:13-57
+33        </activity>
+34    </application>
+35
+36</manifest>

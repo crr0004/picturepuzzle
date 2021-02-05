@@ -1,0 +1,4 @@
+#Fri Feb 05 18:52:31 AEDT 2021
+base.0=F\:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

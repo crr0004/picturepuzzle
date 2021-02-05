@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainmenulayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="5dp"
+    android:layout_weight="1"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/headSpaceLogo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="15dp"
+        android:layout_weight="20"
+        android:background="@color/white"
+        android:contentDescription="@string/headspacelogodescription"
+        android:paddingBottom="5dp"
+        android:src="@drawable/puzzlepiece" />
+
+    <TableLayout
+        android:id="@+id/mainMenuButtons"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3.83"
+        android:background="@color/white" >
+
+        <Button
+            android:id="@+id/goToMainMenuButton"
+            style="@style/MainMenuButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/mainmenu_buttonbackground_gradient_on"
+            android:text="@string/continueGameButtonText" />
+
+        <Button
+            android:id="@+id/enterGameButton"
+            style="@style/MainMenuButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/mainmenu_buttonbackground_gradient_on"
+            android:text="@string/newGame" />
+
+        <Button
+            android:id="@+id/statsButton"
+            style="@style/MainMenuButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/mainmenu_buttonbackground_gradient_on"
+            android:text="@string/statsButtonText" />
+
+    </TableLayout>
+
+</LinearLayout>

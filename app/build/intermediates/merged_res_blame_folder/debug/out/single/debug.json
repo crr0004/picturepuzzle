@@ -1,0 +1,98 @@
+[
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_buttonbackgroundpressed.png.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\drawable-hdpi\\buttonbackgroundpressed.png"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\anim_puzzlepiecefadein.xml.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\anim\\puzzlepiecefadein.xml"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_mainmenu.xml.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\layout\\activity_mainmenu.xml"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_launcher.png.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\drawable-xhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\menu_stats.xml.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\menu\\stats.xml"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_launcher.png.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\drawable-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_abouttextpressed.png.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\drawable-hdpi\\abouttextpressed.png"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_abouttext.png.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\drawable-hdpi\\abouttext.png"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\layout_wingamedialog.xml.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\layout\\wingamedialog.xml"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_launcher.png.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_mainmenu_buttonbackground_gradient_on.png.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\drawable-hdpi\\mainmenu_buttonbackground_gradient_on.png"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_nintendo_characters_nintendo_512x512.png.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\drawable-hdpi\\nintendo_characters_nintendo_512x512.png"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_button_gray_background.png.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\drawable-hdpi\\button_gray_background.png"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_mainmenu_buttonbackground_gradient_off.png.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\drawable-hdpi\\mainmenu_buttonbackground_gradient_off.png"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\anim_buttonmoveup.xml.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\anim\\buttonmoveup.xml"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_stats.xml.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\layout\\activity_stats.xml"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_action_search.png.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\drawable-hdpi\\ic_action_search.png"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\menu_main_menu.xml.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\menu\\main_menu.xml"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_launcher.png.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\drawable-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_borderlands2.png.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\drawable-hdpi\\borderlands2.png"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_puzzlepiece.png.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\drawable-hdpi\\puzzlepiece.png"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_headspace_mainmenu_background_border.png.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\drawable-hdpi\\headspace_mainmenu_background_border.png"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\menu_game.xml.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\menu\\game.xml"
+    },
+    {
+        "merged": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_game.xml.flat",
+        "source": "F:\\dev\\StudioProjects\\picturepuzzle1\\app\\src\\main\\res\\layout\\activity_game.xml"
+    }
+]
